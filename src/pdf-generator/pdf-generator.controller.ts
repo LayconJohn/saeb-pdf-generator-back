@@ -2,7 +2,10 @@ import { Controller, Post, Body, Req, HttpCode, HttpException, HttpStatus, } fro
 import { PdfGeneratorService } from './pdf-generator.service';
 import { Request, Response } from '@nestjs/common';
 import { PdfGenerator } from './entities/pdf-generator.entity';
+import { ApiTags } from '@nestjs/swagger';
+import { CreatePdfGeneratorDto } from './dto/create-pdf-generator.dto';
 
+@ApiTags('pdf-generator')
 @Controller('pdf-generator')
 export class PdfGeneratorController {
   constructor(private readonly pdfGeneratorService: PdfGeneratorService) {}
@@ -16,8 +19,10 @@ export class PdfGeneratorController {
     try {
       const xChannel = req.headers['x-canal'] 
       const token = req.headers['authorization']
+
+      const createPdfGeneratorDto: CreatePdfGeneratorDto = {token: token.replace("Bearer ", ""), xChannel, code}
     
-      const response = await (this.pdfGeneratorService.create({token: token.replace("Bearer ", ""), xChannel, code}))
+      const response = await (this.pdfGeneratorService.create(createPdfGeneratorDto))
       return response as PdfGenerator;
     } catch (error) {
       return new HttpException({
