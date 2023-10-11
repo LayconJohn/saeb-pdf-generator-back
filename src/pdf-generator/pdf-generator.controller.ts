@@ -17,7 +17,7 @@ export class PdfGeneratorController {
       const xChannel = req.headers['x-canal'] 
       const token = req.headers['authorization']
     
-      const response = (await (this.pdfGeneratorService.create({token: token.replace("Bearer ", ""), xChannel, code}))).data
+      const response = await (this.pdfGeneratorService.create({token: token.replace("Bearer ", ""), xChannel, code}))
       return response as PdfGenerator;
     } catch (error) {
       return new HttpException({
