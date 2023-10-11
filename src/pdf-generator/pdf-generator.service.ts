@@ -29,7 +29,7 @@ export class PdfGeneratorService {
     doc.end();
 
     doc.pipe(
-      fs.createWriteStream(`files/${data.codigo}.pdf`),
+      fs.createWriteStream(`files/servico-${data.codigo}.pdf`),
     );
 
     return data
